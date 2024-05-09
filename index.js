@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 var jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
@@ -8,10 +9,11 @@ const port = process.env.port || 5000;
 
 // middle ware
 app.use(cors({
-    origin: ['http://localhost:5000'], //only for development, not for production
+    origin: ['http://localhost:5173'], //only for development, not for production
     credentials: true
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 
 // console.log(process.env.DB_USER)
