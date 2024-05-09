@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors');
+var jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
@@ -30,6 +31,16 @@ async function run() {
         const serviceCollection = client.db('carDoctoruser').collection('services');
         const bookingCollection = client.db('carDoctoruser').collection('bookings');
         // console.log(serviceCollection)
+
+        //    jwt & auth related api
+        app.post('/jwt', async (req, res) => {
+            const jwt = req.body;
+            console.log(jwt)
+            res.send(jwt);
+        })
+
+
+
 
         // get data from database collection
         app.get('/services', async (req, res) => {
@@ -92,9 +103,6 @@ async function run() {
 
 
         })
-
-
-
 
 
 
