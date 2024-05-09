@@ -7,7 +7,10 @@ const app = express();
 const port = process.env.port || 5000;
 
 // middle ware
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5000'], //only for development, not for production
+    credentials: true
+}));
 app.use(express.json());
 
 
@@ -35,9 +38,16 @@ async function run() {
         //    jwt & auth related api
         app.post('/jwt', async (req, res) => {
             const user = req.body;
-            console.log(jwt)
-            const token = jwt.sign(user, 'secret', { expiresIn: '1h' })
-            res.send(token);
+            // console.log(jwt)
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+
+            res
+                .cookie("token", token, {
+                    secure: false, //only for development set this value false and for production set this value must be true
+                    httpOnly: true,
+                    sameSite: 'none'
+                })
+                .send({ success: true });
         })
 
 
